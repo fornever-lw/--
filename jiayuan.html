@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>家园前端一面搜索网页</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .bg-container {
+            background: url('https://bing.img.run/1920x1080.php') no-repeat center/cover;
+            height: 100vh; width: 100vw;
+            position: fixed; top: 0; left: 0; z-index: -1;
+        }
+    .text-input {
+    position: absolute;
+    top: 350px;
+    right: 400px;
+    left: 400px;
+    padding: 8px;
+    width: 600px;
+    color: #fff; 
+    font-size: 18px;
+    /* 新增：半透明黑色背景，增强文字对比 */
+    background: rgba(0,0,0,0.5);
+    /*红色分量，绿色分量，蓝色分量，透明度
+     可选：添加边框，让输入框更明显 */
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+    .time-display{
+        position: absolute;
+        top: 200px;
+        right: 600px;
+        color: #fff;
+        font-size: 80px;
+
+    }
+    
+    .discovery-area {
+            display: flex; flex-wrap: wrap; gap: 12px;
+            margin-left: 380px;
+            max-width: 700px; margin-top: 400px;
+        }
+    .search-icon {
+            font-size: 20px; color: #fff;
+            cursor: pointer; transition: color 0.3s;
+            position: absolute; /* 绝对定位，脱离文档流 */
+            right: 430px; /* 距父容器右侧px（可调整，比如px） */
+            top: 48%; /* 距父容器顶部%（垂直方向居中的基础） */
+            transform: translateY(-50%); 
+        }
+
+        .discovery-item {
+            color: #fff; text-decoration: none;
+            padding: 8px 15px; border-radius: 200px;
+            background: rgba(0,0,0,0.3);
+            font-size: 14px; transition: background 0.3s;
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <div class = "bg-image">
+    </div>
+    <h1></h1>
+    <form action="">
+        <input type="text" class="text-input" id="search-input" placeholder="搜索一下吧">
+        <div class="bg-container"></div>
+        <div class="time-display" id="currentTime"></div>
+        <div class="search-wrap"> </div>
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+
+            <div class="input-container">
+            </div>
+        <div class="discovery-area">
+            <a href="https://www.baidu.com/s?wd=家园工作室" class="discovery-item">家园工作室</a>
+            <a href="https://www.baidu.com/s?wd=南大家园" class="discovery-item">南大家园</a>
+            <a href="https://www.baidu.com/s?wd=如何通过家园研发考核" class="discovery-item">如何通过家园研发考核</a>
+            <a href="https://www.baidu.com/s?wd=小家园传声机" class="discovery-item">小家园传声机</a>
+            <a href="https://www.baidu.com/s?wd=游戏组" class="discovery-item">游戏组</a>
+            <a href="https://www.baidu.com/s?wd=研发组" class="discovery-item">研发组</a>
+            <a href="https://www.baidu.com/s?wd=产品组" class="discovery-item">产品组</a>
+            <a href="https://www.baidu.com/s?wd=设计组" class="discovery-item">设计组</a>
+        </div>
+    </form>
+    <script>
+        function showTime (){
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString();//格式：时分秒
+            const searchInput = document.getElementById('search-input');
+            const searchIcon = document.querySelector('.search-icon');
+            const alertTip = document.querySelector('.alert-tip');
+
+            document.getElementById("currentTime").innerText=timeStr;
+        }
+        function handleSearch() {
+    const keyword = document.getElementById('search-input').value.trim();
+    if (!keyword) {
+        alert('请输入搜索关键词~');
+        return;
+    }
+    localStorage.setItem('lastSearch', keyword);
+    const searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(keyword)}`;
+    window.location.href = searchUrl;
+}
+
+// 输入框回车键触发搜索
+document.getElementById('search-input').addEventListener('keydown', function(event) {
+    if (event.keyCode === 13) {
+        handleSearch(); 
+    }
+});
+document.querySelector('.search-icon').addEventListener('click', handleSearch);
+
+
+
+
+    showTime();
+    setInterval(showTime,1000);//每一秒更新，1000ms
+    </script>
+    
+</body>
+</html>
